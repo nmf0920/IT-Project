@@ -1,0 +1,30 @@
+{% extends 'quiz-templates/base.html' %}  
+{% load crispy_forms_tags %}
+{% block content%}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{message.tags}}">
+                {{message}}
+            </div>
+        {% endfor %}
+    {% endif %}
+    <div class="content-section">
+        <form method="POST"> 
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Search friends</legend>
+                <!-- {{form|crispy}} -->
+                <div class="form-group">
+                    <input class="" type="text" name="friendname">
+                    <button class="btn btn-outline-info ml-2" type="submit">Add Friend</button>
+                </div>
+            </fieldset>
+        </form>
+        <!-- <div class="border-top pt-3">
+            <small class="text-muted">Already have an account? <a class="ml-1" href="{% url 'user-login' %}">Log in</a></small>
+        </div> -->
+    </div>
+{% endblock content%}
+
+
+<!-- action="{% url 'add-friend' %}" -->
