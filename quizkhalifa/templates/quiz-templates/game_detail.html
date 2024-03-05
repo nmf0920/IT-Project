@@ -1,0 +1,34 @@
+{% extends 'quiz-templates/base.html' %} {% block content %}
+<style>
+  ul.no-bullets {
+    list-style-type: none; /* Remove bullet points */
+    padding: 0; /* Remove default padding */
+  }
+</style>
+
+<h1>{{ game.title }}</h1>
+<p>{{ game.description }}</p>
+
+<form action="{% url 'quiz_submit' game.id %}" method="post">
+  {% csrf_token %} {% for info in game_information %}
+  <div>
+    <p>Question: {{ info.question_text }}</p>
+    <ul>
+      {% for option in info.get_options %}
+      <li>
+        <label>
+          <input
+            type="radio"
+            name="question_{{ forloop.parentloop.counter }}"
+            value="{{ option.0 }}"
+          />
+          {{ option.1 }}
+        </label>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endfor %}
+  <button type="submit">Submit</button>
+</form>
+{% endblock %}
