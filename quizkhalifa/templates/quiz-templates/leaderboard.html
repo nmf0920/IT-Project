@@ -1,0 +1,29 @@
+{% extends 'quiz-templates/base.html' %} {% block content %}
+
+<h2>Leaderboard</h2>
+
+{% if game_id %}
+<h3>Scores for Game {{ game_id }}</h3>
+{% else %}
+<h3>Global Scores</h3>
+{% endif %}
+
+<table>
+  <thead>
+    <tr>
+      <th>Rank</th>
+      <th>User</th>
+      <th>Score</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for score in top_scores %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td>{{ score.user.username }}</td>
+      <td>{{ score.score }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

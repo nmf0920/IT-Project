@@ -1,0 +1,4 @@
+{% extends 'quiz-templates/base.html' %} {% block content %}
+<h2>Your Score: {{ score }} out of {{ total }}</h2>
+<a href="{% url 'app-home' %}">Take Another Quiz</a>
+{% endblock %}
