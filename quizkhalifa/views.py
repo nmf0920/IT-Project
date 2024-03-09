@@ -4,6 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from .models import Game, GameInformation, Score
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.db.models import Max
 
 
 def home(request):
@@ -39,13 +40,34 @@ def quiz_submit(request, game_id):
         return HttpResponseRedirect(reverse('home'))
 
 
-def game_leaderboard(request, game_id):
-    # Fetch top 10 scores for a specific game
-    top_scores = Score.objects.filter(game__id=game_id).order_by('-score')[:10]
-    return render(request, 'quiz-templates/leaderboard.html', {'top_scores': top_scores, 'game_id': game_id})
-
-
 def global_leaderboard(request):
-    # Fetch top 10 scores across all games
-    top_scores = Score.objects.all().order_by('-score')[:10]
+    # Annotate each user with their highest score
+    top_scores = Score.objects.values('user__username').annotate(
+        top_score=Max('score')).order_by('-top_score')[:10]
+
     return render(request, 'quiz-templates/leaderboard.html', {'top_scores': top_scores})
+
+
+def leaderboard(request):
+    # Initialize a list to hold leaderboard data for each game
+    global_top_scores = Score.objects.values('user__username').annotate(
+        top_score=Max('score')).order_by('-top_score')[:10]
+
+    games_leaderboards = []
+
+    # Get all games
+    games = Game.objects.all()
+
+    # For each game, fetch the top scores
+    for game in games:
+        top_scores = Score.objects.filter(game=game).values('user__username').annotate(
+            top_score=Max('score')).order_by('-top_score')[:10]
+        games_leaderboards.append({'game': game, 'top_scores': top_scores})
+
+    # You can also fetch global top scores here if needed
+
+    return render(request, 'quiz-templates/leaderboard.html', {
+        'games_leaderboards': games_leaderboards,
+        'global_top_scores': global_top_scores,
+        # Include global_top_scores in context if you're fetching them
+    })
