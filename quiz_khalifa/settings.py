@@ -31,6 +31,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "django.contrib.sites",
+    "postman",
+    "post.apps.PostConfig",
     "quizkhalifa.apps.QuizkhalifaConfig",
     "message.apps.MessageConfig",
     "friends.apps.FriendsConfig",
@@ -130,5 +133,8 @@ CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+LOGIN_URL = 'user-login'
 LOGIN_REDIRECT_URL = 'app-home'
 LOGOUT_REDIRECT_URL = 'user-login'
+
+SITE_ID = 1

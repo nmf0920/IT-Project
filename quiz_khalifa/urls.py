@@ -20,13 +20,22 @@ from django.urls import path, include
 from users import views as user_views
 from friends import views as friend_views
 from message import views as message_views
+from post import views as post_views
+# from postman.views import 
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    # path("messages/", include('postman.urls', namespace='postman')),
     path("register/", user_views.register, name="user-register"),
+    path("password_reset/", user_views.password_reset, name="user-reset"),
     path("login/", auth_views.LoginView.as_view(template_name = "user-templates/login.html"), name="user-login"),
     path("logout/", auth_views.LogoutView.as_view(), name="user-logout"),
     path("addfriend/", friend_views.addfriends, name="add-friend"),
     path("messageWindow/", message_views.messageWindow, name="message-window"),
+    path("message/", message_views.message, name="message"),
+    path("inbox/", post_views.inbox, name="message-inbox"),
+    path("compose/", post_views.compose, name="message-compose"),
+    path("view/<int:message_id>", post_views.view_message, name="message-view"),
+    path("thread/<str:message_sender>", post_views.message_thread, name="message-thread"),
     path("", include('quizkhalifa.urls')),  
 ]

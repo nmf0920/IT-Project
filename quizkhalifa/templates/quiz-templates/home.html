@@ -1,17 +1,22 @@
 {% extends 'quiz-templates/base.html' %}  
 {% block content%}
-    
+
+
+ 
     <p>Welcome to the text based game web application, Quiz Khalifa! Hope you have a good game!</p>
     <br>
     {% for game in games %}
         <article class="media content-section">
             <div class="media-body">
-                <div class="article-metadata">
+                <!-- <div class="article-metadata">
                     <small class="text-muted"><b>Difficulty:</b> {{game.difficulty}}</small>
                     <small class="text-muted"><b>Duration: </b>{{game.duration}}</small>
-                </div>
-            <h2><a class="article-title" href="#">{{game.name}}</a></h2>
+                </div> -->
+             
+            <h2><a class="article-title" href="{% url 'game_detail' game.id %}">Quiz Game - {{ game.title }}</a></h2>
             <p class="article-content">{{game.description}}</p>
+
+            <div class="game-list">
             </div>
         </article>
     {% endfor %}

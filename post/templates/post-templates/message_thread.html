@@ -1,0 +1,20 @@
+{% extends 'quiz-templates/base.html' %}
+
+
+{% block content %}
+    <h1>Message Thread</h1>
+    <div class="{% if message.sender == user %}sent{% else %}received{% endif %}">
+        {% for message in message_thread %}
+        
+            <p><strong>{{ message.sender }}</strong> <small>{{ message.sent_at }}</small></p>
+            <p>{{ message.body }}</p>
+        
+        {% endfor %}
+    </div>
+    <div>
+        <a href="{% url 'message-compose' %}"> Reply </a>
+    </div>
+{% endblock %}
+
+
+<!-- {% if message.sender == user %}sent{% else %}received{% endif %} -->

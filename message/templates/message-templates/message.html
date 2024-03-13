@@ -9,13 +9,16 @@
         {% endfor %}
     {% endif %}
     <div class="content-section">
-        {% for friend in friends %}
+        {% if messageDetails %}
             <article class="media content-section">
                 <div class="media-body">
-                    <a class="article-content" href="{% url 'message' %}?friendname={{friend.friendname}}">{{friend.friendname}}</a>
+                    <div class="article-metadata">
+                        <small class="text-muted"><b>From:</b> {{messageDetails.sender}}</small>
+                        <small class="text-muted"><b>To: </b>{{messageDetails.receiver}}</small>
+                    </div>
                 </div>
             </article>
-        {% endfor %}
+        {% endif %}
         <!-- <div class="border-top pt-3">
             <small class="text-muted">Already have an account? <a class="ml-1" href="{% url 'user-login' %}">Log in</a></small>
         </div> -->

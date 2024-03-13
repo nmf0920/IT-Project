@@ -1,0 +1,29 @@
+{% extends 'quiz-templates/base.html' %}
+
+{% block content %}
+    <h1>Inbox</h1>
+    <div class="content-section">
+        {% for sender, message in latest_messages.items %}
+            <strong>{{ sender }} </strong> <small>{{message.sent_at}}</small>
+            <div class="media media-body">
+                <p>{{ message.body }} </p>
+                <a class="ml-4" href="{% url 'message-thread' sender %}">View</a> <br>
+                <!-- <a class="ml-4" href="{% url 'message-compose' %}"> New Message <br></a> <br> -->
+            </div>
+            {% empty %}
+            <p>No messages in your inbox.</p>
+        {% endfor %}
+    
+    </div>
+
+    
+    <a href="{% url 'message-compose' %}">New Chat</a>
+{% endblock %}
+
+<!-- <div class="media content-section">
+                <p>From: {{ message.sender }} </p> 
+                <p>Subject: {{ message.subject }}</p> -->
+                <!-- <p class="ml-4">{{ message.body|truncatechars:30 }}</p>
+                <a href="{% url 'message-view' message.id %}">View</a>
+            </div>
+         --> 

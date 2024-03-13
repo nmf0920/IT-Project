@@ -1,0 +1,20 @@
+{% extends 'quiz-templates/base.html' %}
+
+{% block content %}
+    <h1>Compose New Message</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="recipient">To:</label>
+        <select name="recipient" id="recipient" required>
+            <option value="">Select a recipient</option>
+            {% for user in users %}
+                <option value="{{ user.friendname }}">{{ user.friendname }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <label for="body">Message:</label>
+        <textarea name="body" id="body" rows="5" required></textarea>
+        <br>
+        <input type="submit" value="Send">
+    </form>
+{% endblock %}

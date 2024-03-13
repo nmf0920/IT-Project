@@ -24,7 +24,8 @@
                   <div class="navbar-nav mr-auto">
                     <a class="nav-item nav-link" href="{% url 'app-home' %}">Home</a>
                     <a class="nav-item nav-link" href="{% url 'add-friend' %}">Add Friend</a>
-                    <a class="nav-item nav-link" href="{% url 'message-window' %}">Message</a>
+                    <a class="nav-item nav-link" href="{% url 'message-inbox' %}">Chat</a>
+                    <a class="nav-item nav-link" href="{% url 'leaderboard' %}">Leaderboard</a>
                   </div>
                   <!-- Navbar Right Side -->
                   <div class="navbar-nav">
@@ -49,9 +50,9 @@
             <div class="row">
               <div class="col-md-8">
                 {% if messages %}
-                  {% for mesage in messages %}
-                    <div class="alert alert-success">
-                      {{message}}
+                  {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                      {{ message }}
                     </div>
                   {% endfor %}
                 {% endif %}
@@ -59,13 +60,13 @@
               </div>
               <div class="col-md-4">
                 <div class="content-section">
-                  <h3>Our Sidebar</h3>
-                  <p class='text-muted'>You can put any information here you'd like.
+                  <h3>Latest Updates</h3>
+                  <p class='text-muted'>You can find latest updates here.
                     <ul class="list-group">
                       <li class="list-group-item list-group-item-light">Latest Posts</li>
                       <li class="list-group-item list-group-item-light">Announcements</li>
-                      <li class="list-group-item list-group-item-light">Calendars</li>
-                      <li class="list-group-item list-group-item-light">etc</li>
+                      <li class="list-group-item list-group-item-light">New Releases</li>
+                      <li class="list-group-item list-group-item-light">Bug fixes</li>
                     </ul>
                   </p>
                 </div>

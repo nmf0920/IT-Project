@@ -1,0 +1,137 @@
+{% extends 'quiz-templates/base.html' %} {% block content %}
+
+<style>
+  .leaderboard-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .leaderboard-table th,
+  .leaderboard-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+
+  .leaderboard-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  .leaderboard-table tr:hover {
+    background-color: #ddd;
+  }
+
+  .global-leaderboard {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .global-leaderboard th,
+  .global-leaderboard td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  .global-leaderboard th {
+    background-color: #aa6d04;
+    color: white;
+  }
+  .hidden {
+    display: none;
+  }
+  .global-leaderboard tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  .global-leaderboard tr:hover {
+    background-color: #ddd;
+  }
+
+  .Easy-table th {
+    background-color: #32de84; /* Green */
+  }
+
+  .Medium-table th {
+    background-color: #ffbf00; /* Amber */
+  }
+
+  .Hard-table th {
+    background-color: #ef0107;
+  }
+</style>
+
+<h2>Global Leaderboards</h2>
+<table class="global-leaderboard" id="leaderboard-global">
+  <thead>
+    <tr>
+      <th>Rank</th>
+      <th>User</th>
+      <th>Score</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for score in global_top_scores %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td>{{ score.user__username }}</td>
+      <td>{{ score.top_score }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h2>All Game Leaderboards</h2>
+
+<select id="game-selection" onchange="showLeaderboard()">
+  {% for leaderboard in games_leaderboards %}
+  <option value="{{ leaderboard.game.id }}">
+    {{ leaderboard.game.title }}
+  </option>
+  {% endfor %}
+</select>
+
+{% for leaderboard in games_leaderboards %}
+<div
+  class="game-leaderboard-section hidden"
+  id="leaderboard-{{ leaderboard.game.id }}"
+>
+  <h3>Game: {{ leaderboard.game.title }}</h3>
+  <table class="leaderboard-table {{ leaderboard.game.title }}-table">
+    <thead>
+      <tr>
+        <th>Rank</th>
+        <th>User</th>
+        <th>Score</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for score in leaderboard.top_scores %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ score.user__username }}</td>
+        <td>{{ score.top_score }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endfor %}
+
+<script>
+  function showLeaderboard() {
+    var selectedGameId = document.getElementById("game-selection").value;
+    document
+      .querySelectorAll(".game-leaderboard-section")
+      .forEach(function (section) {
+        section.classList.add("hidden");
+      });
+
+    if (selectedGameId === "global") {
+      document.getElementById("leaderboard-global").classList.remove("hidden");
+    } else {
+      document
+        .getElementById("leaderboard-" + selectedGameId)
+        .classList.remove("hidden");
+    }
+  }
+
+  showLeaderboard();
+</script>
+
+{% endblock %}
